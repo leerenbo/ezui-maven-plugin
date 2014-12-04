@@ -12,7 +12,7 @@ public class ScannerT {
 
 	@Test
 	public void testScan() {
-		new Scanner().scan(new File("E:\\Workspaces\\sts\\mojoExe\\target\\classes"));
+//		new Scanner().scan(new File("E:\\Workspaces\\sts\\mojoExe\\target\\classes"));
 	}
 
 }
