@@ -45,7 +45,7 @@
 				'data.id' : $(':input[name="data.id"]').val()
 			}, function(result) {
 				if (result.id != undefined) {
-					var data = $.parseJSON(ez.jsonToString(result));
+					var data = ez.formLoadConvert(result);
 					if (result.id != undefined) {
 						$('#ezAddAndUpdataform').form('load', data);
 					}
@@ -59,17 +59,51 @@
 <body>
 	<form id="ezAddAndUpdataform" method="post" enctype="multipart/form-data" class="form">
 		<fieldset>
-			<legend>用户基本信息</legend>
+			<legend>${pages.moduleName}信息</legend>
 			<table class="table" style="width: 100%;">
+			
 				<tr>
-				<#list pages.form.formElements as element>
-				<#if element_index%2==0&&element_index!=0>
+	<#assign x = 0>
+		<#list pages.form.formElements as element>
+			<#if element.isId>
+				<input name="data.${element.fieldName}" type="hidden" value="<%=id%>" />
+			<#elseif element.isHidden>
+				<input name="data.${element.fieldName}" type="hidden" value="${element.defaultValue!""}"/>
+			<#elseif element.elementType=="tree">
+			<#elseif element.elementType=="treegrid">
+				
+			<#else>
+				<#if x%2==0&&x!=0>
 				</tr>
 				<tr>
 				</#if>
-					<th>${element.title}</th>
-					<td><input name="data.${element.fieldName}" class="easyui-${element.elementType}" data-options=""/></td>
-				</#list>
+	<#assign x = x+1>
+				<th>${element.title}</th>
+				<td>
+				<#if element.elementType=="combogrid">
+				    <input name="data.${element.fieldName}.${element.idField}" class="easyui-combogrid" data-options="
+				            panelWidth: 500,
+				            idField: '${element.idField}',
+				            textField: '${element.textField}',
+				            url: ez.contextPath + '/${element.insideEzuiHolder.javas.action.beanName}!noSy_find.action',
+				            method: 'get',
+				            editable: false,
+				            columns: [[
+				            	<#list element.insideEzuiHolder.pages.dataGrid.showElements as insideShow>
+				            	<#if insideShow.isHidden>
+				            	<#else>			
+				            	{field:'${insideShow.fieldName}',title:'${insideShow.title}',width:150},
+				            	</#if>
+				            	</#list>
+				            ]],
+				            fitColumns: true
+				        "/>
+				<#else>
+					<input name="data.${element.fieldName}" class="easyui-${element.elementType}" data-options="${element.dataOptions!""}"/>
+				</#if>
+				</td>
+			</#if>
+		</#list>
 				</tr>
 			</table>
 		</fieldset>

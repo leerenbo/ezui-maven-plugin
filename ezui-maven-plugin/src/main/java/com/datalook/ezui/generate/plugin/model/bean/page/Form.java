@@ -13,10 +13,9 @@ public class Form {
 	//${pages.form.}
 
 	public File file;
-	public String webappURL="待写";
-	
+	public String fileName;
+	public String webappURL;
 	public List<Element> formElements = new ArrayList<Element>();
-	
 	public Form init(Class clazz){
 		Field[] fields = clazz.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
@@ -46,5 +45,11 @@ public class Form {
 	}
 	public void setFormElements(List<Element> formElements) {
 		this.formElements = formElements;
+	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 }

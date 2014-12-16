@@ -1,35 +1,39 @@
 package com.datalook.ezui.generate.plugin.model.bean;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.project.MavenProject;
 
 import com.datalook.ezui.generate.plugin.model.bean.java.Action;
+import com.datalook.ezui.generate.plugin.model.bean.java.Relate;
 import com.datalook.ezui.generate.plugin.model.bean.java.Service;
 
 public class Javas {
 	public String javaDir;
-	public Action action=new Action();
-	public Service service=new Service();
-
+	public Action action = new Action();
+	public Service service = new Service();
+	public Set<Relate> relates = new HashSet<Relate>();
 	public String genericClassFullName;
 	public String genericClassSimpleName;
 
-	public void init(Class clazz, MavenProject project){
-		javaDir=project.getBasedir()+"\\src\\main\\java\\";
-		action.packagee=clazz.getPackage().getName().replace(".model.", ".action.");
-		action.beanName=StringUtils.uncapitalize(clazz.getSimpleName());
-		action.className=clazz.getSimpleName()+"Action";
-		action.file=new File(javaDir+clazz.getName().replace(".model.", ".action.").replace(".", "\\")+"Action.java");
+	public void init(Class clazz, MavenProject project) {
+		javaDir = project.getBasedir() + "\\src\\main\\java\\";
+		action.packagee = clazz.getPackage().getName().replace(".model.", ".action.");
+		action.beanName = StringUtils.uncapitalize(clazz.getSimpleName());
+		action.className = clazz.getSimpleName() + "Action";
+		action.file = new File(javaDir + clazz.getName().replace(".model.", ".action.").replace(".", "\\") + "Action.java");
 
-		service.packagee=clazz.getPackage().getName().replace(".model.", ".service.");
-		service.beanName=StringUtils.uncapitalize(clazz.getSimpleName())+"Service";
-		service.className=clazz.getSimpleName()+"Service";
-		service.file=new File(javaDir+clazz.getName().replace(".model.", ".service.").replace(".", "\\")+"Service.java");
-		service.fileImpl=new File(javaDir+(clazz.getPackage().getName()+".implement.").replace(".model.", ".service.").replace(".", "\\")+"ServiceImpl.java");
-		genericClassFullName=clazz.getName();
-		genericClassSimpleName=clazz.getSimpleName();
+		service.packagee = clazz.getPackage().getName().replace(".model.", ".service.");
+		service.beanName = StringUtils.uncapitalize(clazz.getSimpleName()) + "Service";
+		service.className = clazz.getSimpleName() + "Service";
+		service.file = new File(javaDir + clazz.getName().replace(".model.", ".service.").replace(".", "\\") + "Service.java");
+		service.fileImpl = new File(javaDir + (clazz.getPackage().getName() + ".implement.").replace(".model.", ".service.").replace(".", "\\") + clazz.getSimpleName() + "ServiceImpl.java");
+		genericClassFullName = clazz.getName();
+		genericClassSimpleName = clazz.getSimpleName();
 	}
 
 	public String getJavaDir() {
@@ -71,5 +75,13 @@ public class Javas {
 	public void setGenericClassSimpleName(String genericClassSimpleName) {
 		this.genericClassSimpleName = genericClassSimpleName;
 	}
-	
+
+	public Set<Relate> getRelates() {
+		return relates;
+	}
+
+	public void setRelates(Set<Relate> relates) {
+		this.relates = relates;
+	}
+
 }

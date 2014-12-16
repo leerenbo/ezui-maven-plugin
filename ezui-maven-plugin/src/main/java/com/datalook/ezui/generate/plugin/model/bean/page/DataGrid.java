@@ -5,21 +5,19 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.datalook.ezui.annotation.declare.EzuiTransparent;
+import com.datalook.ezui.annotation.element.EzuiElement.EzuiElementType;
 import com.datalook.ezui.annotation.page.EzuiDataGrid;
-import com.datalook.ezui.generate.plugin.model.bean.declare.Show;
-import com.datalook.ezui.generate.plugin.model.bean.declare.ShowFactory;
 import com.datalook.ezui.generate.plugin.model.bean.element.Element;
 import com.datalook.ezui.generate.plugin.model.bean.element.ElementFactory;
 
 public class DataGrid {
-	//${pages.dataGrid.}
+	// ${pages.dataGrid.}
 	public File file;
+	public String webappURL = "待写";
 
 	public List<Element> conditionElements = new ArrayList<Element>();
-	public List<Show> showFields = new ArrayList<Show>();
+	public List<Element> showElements = new ArrayList<Element>();
 
 	public String moduleName;
 
@@ -27,19 +25,20 @@ public class DataGrid {
 	public boolean getByIdable;
 	public boolean updateable;
 	public boolean deleteable;
-	public String deleteMethod="deletePhysical";
+	public String deleteMethod = "deletePhysical";
+
+	public String sqlId;
 
 	public void init(Class clazz) {
-		if(deleteable){
+		if (deleteable) {
 			try {
-				if(clazz.getDeclaredField("status")!=null){
-					deleteMethod="deleteByStatus";
+				if (clazz.getDeclaredField("status") != null) {
+					deleteMethod = "deleteByStatus";
 				}
 			} catch (NoSuchFieldException e) {
 			} catch (SecurityException e) {
 			}
 		}
-		
 		Field[] fields = clazz.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
@@ -50,10 +49,11 @@ public class DataGrid {
 			Element eConditon = ElementFactory.instance(field, ElementFactory.CONDITION);
 			if (eConditon != null)
 				conditionElements.add(eConditon);
-			
-			Show s = ShowFactory.instance(field);
-			if (s != null)
-				showFields.add(s);
+
+			Element show = ElementFactory.instance(field, ElementFactory.SHOW);
+			if (show != null){
+				showElements.add(show);
+			}
 		}
 	}
 
@@ -81,12 +81,12 @@ public class DataGrid {
 		this.conditionElements = conditionElements;
 	}
 
-	public List<Show> getShowFields() {
-		return showFields;
+	public List<Element> getShowElements() {
+		return showElements;
 	}
 
-	public void setShowFields(List<Show> showFields) {
-		this.showFields = showFields;
+	public void setShowElements(List<Element> showElements) {
+		this.showElements = showElements;
 	}
 
 	public String getModuleName() {
@@ -136,6 +136,4 @@ public class DataGrid {
 	public void setDeleteMethod(String deleteMethod) {
 		this.deleteMethod = deleteMethod;
 	}
-	
-	
 }

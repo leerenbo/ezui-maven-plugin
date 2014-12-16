@@ -10,7 +10,8 @@ import com.datalook.ezui.annotation.element.EzuiElement;
 public class ElementFactory {
 	public static final int CONDITION = 0;
 	public static final int FORM = 1;
-
+	public static final int SHOW = 2;
+	
 	
 	/**
 	 * 优先级，
@@ -50,7 +51,16 @@ public class ElementFactory {
 				}
 			}
 			break;
+		case SHOW:
+			if(ezuiShow!=null){
+				if (ezuiShow.element() != null) {
+					return new Element(field, ezuiShow.element());
+				}
+
+			}
+			break;
 		}
+		
 		
 		//level 2
 		if (ezuiElement != null) {
@@ -62,6 +72,9 @@ public class ElementFactory {
 			return new Element(field);
 		}
 		if (ezuiForm != null) {
+			return new Element(field);
+		}
+		if (ezuiShow != null) {
 			return new Element(field);
 		}
 

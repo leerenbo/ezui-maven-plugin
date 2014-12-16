@@ -34,6 +34,7 @@ import org.apache.maven.project.MavenProject;
 import com.datalook.ezui.generate.plugin.model.EzuiHolder;
 import com.datalook.ezui.generate.plugin.scan.Scanner;
 import com.datalook.ezui.generate.plugin.template.Templater;
+import com.datalook.ezui.generate.plugin.util.TextUtil;
 
 @Mojo(defaultPhase = LifecyclePhase.TEST, requiresDependencyResolution = ResolutionScope.RUNTIME_PLUS_SYSTEM, name = "generate", requiresProject = true)
 public class EzuiGenerateMojo extends AbstractMojo {
@@ -53,6 +54,7 @@ public class EzuiGenerateMojo extends AbstractMojo {
 	private MavenProject project;
 
 	public void execute() throws MojoExecutionException {
+		TextUtil.resourceDir=project.getBasedir().getAbsolutePath()+"\\src\\main\\resources";
 		try {
 		scanner=new Scanner(getLog());
 		templater= new Templater(getLog());
@@ -110,5 +112,4 @@ public class EzuiGenerateMojo extends AbstractMojo {
 			System.out.println(field);
 		}
 	}
-
 }

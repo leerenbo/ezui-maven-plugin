@@ -1,0 +1,18 @@
+<#macro insideEzuiHolderColumns insideEzuiHolderColumnsElements outsideFieldName>
+			<#list insideEzuiHolderColumnsElements as insideEzuiHolderColumnsElementsShow>
+			<#if insideEzuiHolderColumnsElementsShow.isHidden>
+			<#elseif insideEzuiHolderColumnsElementsShow.insideEzuiHolder??>
+			<#else>
+			{
+				width : '200',
+				title : '${outsideFieldName}.${insideEzuiHolderColumnsElementsShow.title}',
+				field : '${outsideFieldName}.${insideEzuiHolderColumnsElementsShow.fieldName}',
+				<#if insideEzuiHolderColumnsElementsShow.typeFullClassName??>
+				formatter : function(value,row){
+					return ez.columnsFomatter(value,row,'${insideEzuiHolderColumnsElementsShow.location}');
+				}
+				</#if>
+			},
+			</#if>
+			</#list>
+</#macro>
