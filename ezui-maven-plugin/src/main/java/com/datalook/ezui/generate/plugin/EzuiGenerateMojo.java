@@ -16,13 +16,11 @@ package com.datalook.ezui.generate.plugin;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -38,78 +36,62 @@ import com.datalook.ezui.generate.plugin.util.TextUtil;
 
 @Mojo(defaultPhase = LifecyclePhase.TEST, requiresDependencyResolution = ResolutionScope.RUNTIME_PLUS_SYSTEM, name = "generate", requiresProject = true)
 public class EzuiGenerateMojo extends AbstractMojo {
-	
-	
+
 	private List<EzuiHolder> leh;
 	private Scanner scanner;
 	private Templater templater;
 
-	/**
-	 * Location of the file.
-	 */
-	@Parameter(defaultValue = "${project.build.directory}", property = "outputDir", required = true)
-	private File outputDirectory;
+	// @Parameter(defaultValue = "${project.build.directory}", property =
+	// "outputDir", required = true)
+	// private File outputDirectory;
 
 	@Parameter(property = "project")
 	private MavenProject project;
 
+	@Parameter
+	private String packagee;
+
+	public static String projectPackage;
+
 	public void execute() throws MojoExecutionException {
-		TextUtil.resourceDir=project.getBasedir().getAbsolutePath()+"\\src\\main\\resources";
+		if (StringUtils.isBlank(packagee)) {
+			packagee = project.getGroupId() + "." + project.getArtifactId();
+		}
+		projectPackage = packagee;
+		TextUtil.resourceDir = project.getBasedir().getAbsolutePath() + "\\src\\main\\resources";
+		scanner = new Scanner(getLog());
+		templater = new Templater(getLog());
+
+		List<EzuiHolder> ezuiHolders = null;
 		try {
-		scanner=new Scanner(getLog());
-		templater= new Templater(getLog());
-		
-		List<EzuiHolder> ezuiHolders=scanner.scan(project);
-		getLog().info("----------检测到类"+ezuiHolders.size()+"----------");
+			ezuiHolders = scanner.scan(project);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		getLog().info("----------检测到类" + ezuiHolders.size() + "----------");
 		for (EzuiHolder ezuiHolder : ezuiHolders) {
 			templater.generate(ezuiHolder);
 		}
-		
-		File f = outputDirectory;
-
-		if (!f.exists()) {
-			f.mkdirs();
-		}
-
-		File touch = new File(f, "touch.txt");
-
-		FileWriter w = null;
-		try {
-			w = new FileWriter(touch);
-			w.write("touch.txt");
-		} catch (IOException e) {
-			throw new MojoExecutionException("Error creating file " + touch, e);
-		} finally {
-			if (w != null) {
-				try {
-					w.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
-		}
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 	}
-	
-	public static void list(Class c){
-		System.out.println("----------"+c.getName());
-		Method[] ms=c.getDeclaredMethods();
+
+	public static void list(Class c) {
+		System.out.println("----------" + c.getName());
+		Method[] ms = c.getDeclaredMethods();
 		for (Method m : ms) {
-			System.out.println(""+m.getReturnType());
-			System.out.println("      "+m.getName()+"()");
-			Class<?>[] cs=m.getParameterTypes();
+			System.out.println("" + m.getReturnType());
+			System.out.println("      " + m.getName() + "()");
+			Class<?>[] cs = m.getParameterTypes();
 			for (Class<?> class1 : cs) {
-				System.out.println("            "+class1.getName());
+				System.out.println("            " + class1.getName());
 			}
 		}
 		System.out.println("---属性");
-		Field[] fs=c.getDeclaredFields();
+		Field[] fs = c.getDeclaredFields();
 		for (Field field : fs) {
 			System.out.println(field);
 		}
 	}
+
 }

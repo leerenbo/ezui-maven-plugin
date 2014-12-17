@@ -7,12 +7,14 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.project.MavenProject;
 
+import com.datalook.ezui.generate.plugin.EzuiGenerateMojo;
 import com.datalook.ezui.generate.plugin.model.bean.Javas;
 import com.datalook.ezui.generate.plugin.model.bean.Pages;
 import com.datalook.ezui.generate.plugin.model.bean.element.Element;
 import com.datalook.ezui.generate.plugin.util.ReflectUtil;
 
 public class EzuiHolder {
+	public String projectPackage = EzuiGenerateMojo.projectPackage;
 	public Class clazz;
 	public Field idField;
 	public String idFieldName;
@@ -114,6 +116,14 @@ public class EzuiHolder {
 
 	public void setIdFieldName(String idFieldName) {
 		this.idFieldName = idFieldName;
+	}
+
+	public String getProjectPackage() {
+		return projectPackage;
+	}
+
+	public void setProjectPackage(String projectPackage) {
+		this.projectPackage = projectPackage;
 	}
 
 }

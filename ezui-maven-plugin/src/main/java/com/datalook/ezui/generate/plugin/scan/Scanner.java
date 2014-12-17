@@ -23,7 +23,7 @@ public class Scanner {
 	private Log log;
 	public static List<EzuiHolder> ezuiHolderlist;
 	private static Scanner scanner;
-
+	
 	public Scanner(Log log) {
 		this.log = log;
 		scanner = this;

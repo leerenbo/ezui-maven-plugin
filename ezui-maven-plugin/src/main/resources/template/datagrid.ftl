@@ -43,7 +43,7 @@
 
 			<#if (pages.trees?size>0)>
 				<#list pages.trees as tree>
-	<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${tree.actionMethodName}')">
+	<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${tree.actionMethodName}')">
 	var open${tree.actionMethodName?cap_first} = function(row) {
 		var dialog = parent.ez.modalDialog({
 			title : '${tree.title}',
@@ -62,7 +62,7 @@
 
 			<#if (pages.treegrids?size>0)>
 				<#list pages.treegrids as treegrid>
-	<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${treegrid.actionMethodName}')">
+	<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${treegrid.actionMethodName}')">
 	var open${treegrid.actionMethodName?cap_first} = function(row) {
 		var dialog = parent.ez.modalDialog({
 			title : '${treegrid.title}',
@@ -237,33 +237,33 @@
 		</div>
 		<div>
 			<#if pages.dataGrid.saveabel>
-			<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!save')">
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!save')">
 				<a onclick="save();" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-note_add',plain:true">添加</a>
 			</s:if>
 			</#if>
 			
 			<#if pages.dataGrid.getByIdable>
-			<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!getById')">
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!getById')">
 				<a onclick="ezgrid.datagrid('ezCheckedInvoke','openGetById');" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-note',plain:true">查看</a>
 			</s:if>
 			</#if>
 			
 			<#if pages.dataGrid.updateable>
-			<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!update')">
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!update')">
 				<a onclick="ezgrid.datagrid('ezCheckedInvoke','openUpdate');" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-note_edit',plain:true">编辑</a>
 			</s:if>
 			</#if>
 			
 			<#if (pages.trees?size>0)>
 				<#list pages.trees as tree>
-			<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${tree.actionMethodName}')">
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${tree.actionMethodName}')">
 				<a onclick="ezgrid.datagrid('ezCheckedInvoke','open${tree.actionMethodName?cap_first}');" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-key',plain:true">${tree.buttonText}</a>
 			</s:if>
 				</#list>				
 			</#if>
 			<#if (pages.treegrids?size>0)>
 				<#list pages.treegrids as treegrid>
-			<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${treegrid.actionMethodName}')">
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${treegrid.actionMethodName}')">
 				<a onclick="ezgrid.datagrid('ezCheckedInvoke','open${treegrid.actionMethodName?cap_first}');" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-key',plain:true">${treegrid.buttonText}</a>
 			</s:if>
 				</#list>				
@@ -271,7 +271,7 @@
 			
 			
 			<#if pages.dataGrid.deleteable>
-			<s:if test="@com.datalook.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${pages.dataGrid.deleteMethod}')">
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${pages.dataGrid.deleteMethod}')">
 				<a onclick="${pages.dataGrid.deleteMethod}();" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-note_delete',plain:true">删除</a>
 			</s:if>
 			</#if>
