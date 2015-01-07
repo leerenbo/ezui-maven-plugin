@@ -96,6 +96,41 @@
 			}
 		});
 	};
+	
+	<#if pages.dataGrid.downloadExcelable>
+	<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!downloadExcel')">
+	var downloadExcel = function(){
+		var url = ez.contextPath + '/${javas.action.beanName}!downloadExcel.action?'+$('#searchForm').serialize();
+		window.open(url);
+	}
+	</s:if>
+	</#if>
+	
+	<#if pages.dataGrid.uploadExcelable>
+	<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!uploadExcel')">
+	var uploadExcel = function(){
+		var dialog = parent.ez.modalDialog({
+			title : '批量导入',
+			url : ez.contextPath + '/${pages.dataGrid.uploadExcelURL}',
+			height : 180,
+			width : 480,
+			buttons : [ {
+				text : '模板下载',
+				handler : function() {
+					var url = ez.contextPath + '/${javas.action.beanName}!noSy_downloadExcelTemplate.action';
+					window.open(url);
+				}
+			},{
+				text : '上传',
+				handler : function() {
+					dialog.find('iframe').get(0).contentWindow.submitForm(dialog, ezgrid, parent.$);
+				}
+			} ]
+		});
+	}
+	</s:if>
+	</#if>
+	
 	var clean = function() {
 		$('#searchForm input.easyui-textbox,#searchForm input.easyui-numberbox').textbox('setValue','');
 		$('#searchForm input.easyui-datebox').datebox('setValue','');
@@ -106,6 +141,7 @@
 		$('#searchForm input.easyui-timespinner').spinner('setValue','');
 		ezgrid.datagrid('load',ez.serializeObject($('#searchForm')));
 	}
+	
 	$(function() {
 		ezgrid = $('#ezgrid').datagrid({
 			title : '',
@@ -121,6 +157,11 @@
 			sortOrder : 'desc',
 			pageSize : 50,
 			pageList : [ 10, 20, 30, 40, 50, 100, 200, 300, 400, 500 ],
+			<#if pages.dataGrid.deleteMethod='deleteByStatus'>
+			queryParams : {
+								hqland_status_dengyu_String: '1',
+							},
+			</#if>
 			frozenColumns : [ [ {
 				field : 'ck',
 				checkbox : true
@@ -273,6 +314,17 @@
 			<#if pages.dataGrid.deleteable>
 			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!${pages.dataGrid.deleteMethod}')">
 				<a onclick="${pages.dataGrid.deleteMethod}();" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-note_delete',plain:true">删除</a>
+			</s:if>
+			</#if>
+			
+			<#if pages.dataGrid.downloadExcelable>
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!downloadExcel')">
+				<a onclick="downloadExcel();" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-page_excel',plain:true">excel下载</a>
+			</s:if>
+			</#if>
+			<#if pages.dataGrid.uploadExcelable>
+			<s:if test="@${projectPackage}.util.base.SecurityUtil@havePermission('/${javas.action.beanName}!uploadExcel')">
+				<a onclick="uploadExcel();" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'ext-icon-page_excel',plain:true">excel导入</a>
 			</s:if>
 			</#if>
 			

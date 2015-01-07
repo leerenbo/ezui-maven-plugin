@@ -50,4 +50,5 @@ public class ${javas.action.className} extends BaseAction<${javas.genericClassSi
 		return super.beforeSave();
 	}
 	</#if>
+	
 }

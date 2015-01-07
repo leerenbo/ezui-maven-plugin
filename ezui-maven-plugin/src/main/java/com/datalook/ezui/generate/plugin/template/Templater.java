@@ -71,6 +71,7 @@ public class Templater {
 				generateFTL(ezuiHolder, "datagrid.ftl", ezuiHolder.pages.dataGrid.file);
 				ezuiHolder.pages.dataGrid.sqlId = TextUtil.randomId().toString();
 				TextUtil.addFunction(ezuiHolder.pages.dataGrid.sqlId, ezuiHolder.pages.dataGrid.moduleName, "3", "1000", "/" + ezuiHolder.pages.dataGrid.webappURL);
+				TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "列表", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!datagridByPage");
 				if (ezuiHolder.pages.dataGrid.saveabel) {
 					TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "添加", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!save");
 				}
@@ -80,11 +81,15 @@ public class Templater {
 				if (ezuiHolder.pages.dataGrid.getByIdable) {
 					TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "详情", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!getById");
 				}
-				if (ezuiHolder.pages.dataGrid.getByIdable) {
-					TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "列表", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!datagridByPage");
-				}
 				if (ezuiHolder.pages.dataGrid.deleteable) {
 					TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "删除", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!" + ezuiHolder.pages.dataGrid.deleteMethod);
+				}
+				if(ezuiHolder.pages.dataGrid.downloadExcelable){
+					TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "excel下载", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!" + "downloadExcel");
+				}
+				if(ezuiHolder.pages.dataGrid.uploadExcelable){
+					generateFTL(ezuiHolder, "uploadExcel.ftl", ezuiHolder.pages.dataGrid.uploadExcelFile);
+					TextUtil.addFunction(TextUtil.randomId().toString(), ezuiHolder.pages.dataGrid.moduleName + "excel导入", "0", ezuiHolder.pages.dataGrid.sqlId, "/" + ezuiHolder.javas.action.beanName + "!" + "uploadExcel");
 				}
 			}
 			if (ezuiHolder.pages.form != null) {

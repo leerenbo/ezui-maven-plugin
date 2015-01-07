@@ -11,20 +11,13 @@ public class ElementFactory {
 	public static final int CONDITION = 0;
 	public static final int FORM = 1;
 	public static final int SHOW = 2;
-	
-	
+
 	/**
-	 * 优先级，
-	 * 第一级	@EzuiCondition(element=@EzuiElement)
-	 * 			@EzuiFom(element=@EzuiElement)
-	 * 				指定条件生效
-	 * 第二级	@EzuiElement
-	 * 				Form，Condition，都条件生效。
-	 * 第三級	@EzuiCondition
-	 * 			@EzuiFom
-	 * 				指定默认生效
-	 * 第四级	什么不都标注
-	 * 				Form，Condition，Show，默认生效
+	 * 优先级， 第一级 @EzuiCondition(element=@EzuiElement)
+	 * 
+	 * @EzuiFom(element=@EzuiElement) 指定条件生效 第二级 @EzuiElement
+	 *                                Form，Condition，都条件生效。 第三級 @EzuiCondition
+	 * @EzuiFom 指定默认生效 第四级 什么不都标注 Form，Condition，Show，默认生效
 	 * @param field
 	 * @param i
 	 * @return
@@ -34,8 +27,8 @@ public class ElementFactory {
 		EzuiCondition ezuiCondition = field.getAnnotation(EzuiCondition.class);
 		EzuiForm ezuiForm = field.getAnnotation(EzuiForm.class);
 		EzuiShow ezuiShow = field.getAnnotation(EzuiShow.class);
-		
-		//level 1
+
+		// level 1
 		switch (i) {
 		case CONDITION:
 			if (ezuiCondition != null) {
@@ -52,7 +45,7 @@ public class ElementFactory {
 			}
 			break;
 		case SHOW:
-			if(ezuiShow!=null){
+			if (ezuiShow != null) {
 				if (ezuiShow.element() != null) {
 					return new Element(field, ezuiShow.element());
 				}
@@ -60,29 +53,36 @@ public class ElementFactory {
 			}
 			break;
 		}
-		
-		
-		//level 2
+
+		// level 2
 		if (ezuiElement != null) {
 			return new Element(field, ezuiElement);
 		}
 
-		//level 3
-		if (ezuiCondition != null) {
-			return new Element(field);
+		// level 3
+		switch (i) {
+		case CONDITION:
+			if (ezuiCondition != null) {
+				return new Element(field);
+			}
+			break;
+		case FORM:
+			if (ezuiForm != null) {
+				return new Element(field);
+			}
+			break;
+		case SHOW:
+			if (ezuiShow != null) {
+				return new Element(field);
+			}
+			break;
 		}
-		if (ezuiForm != null) {
-			return new Element(field);
-		}
-		if (ezuiShow != null) {
+
+		// level 4
+		if (ezuiElement == null && ezuiCondition == null && ezuiForm == null && ezuiShow == null) {
 			return new Element(field);
 		}
 
-		//level 4
-		if(ezuiElement==null&&ezuiCondition==null&&ezuiForm==null&&ezuiShow==null){
-			return new Element(field);
-		}
-		
 		return null;
 	}
 

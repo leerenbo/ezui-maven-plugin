@@ -79,5 +79,17 @@
 
 		</plugins>
 	</build>
+	<distributionManagement>
+		<repository>
+			<id>datalook-project-releases</id>
+			<name>datalook project releases repository</name>
+			<url>http://192.168.1.2:8081/nexus/content/repositories/datalook-project-release/</url>
+		</repository>
+		<snapshotRepository>
+			<id>datalook-project-snapshots</id>
+			<name>datalook project snapshots repository</name>
+			<url>http://192.168.1.2:8081/nexus/content/repositories/datalook-project-snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>

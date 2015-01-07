@@ -24,7 +24,7 @@ public class Pages {
 	public String incPath = "";
 
 	public DataGrid dataGrid;
-//	public PropertyGrid propertyGrid;
+	// public PropertyGrid propertyGrid;
 	public Set<Tree> trees = new HashSet<Tree>();
 	public Set<TreeGrid> treegrids = new HashSet<TreeGrid>();
 	public TreeGrid treeGrid;
@@ -42,11 +42,15 @@ public class Pages {
 				dataGrid.init(clazz);
 				dataGrid.file = new File(webappDir + "pages\\" + pagesPackage + "\\" + StringUtils.uncapitalize(clazz.getSimpleName()) + "Datagrid.jsp");
 				dataGrid.webappURL = "pages/" + pagesPackage.replace("\\", "/") + "/" + StringUtils.uncapitalize(clazz.getSimpleName()) + "Datagrid.jsp";
-				moduleName=dataGrid.moduleName;
+				moduleName = dataGrid.moduleName;
+				if (dataGrid.uploadExcelable) {
+					dataGrid.uploadExcelURL = "pages/" + pagesPackage.replace("\\", "/") + "/" + StringUtils.uncapitalize(clazz.getSimpleName()) + "UploadExcel.jsp";
+					dataGrid.uploadExcelFile=new File(webappDir + "pages\\" + pagesPackage + "\\" + StringUtils.uncapitalize(clazz.getSimpleName()) + "UploadExcel.jsp");
+				}
 			}
-//			if (clazzAnns[i] instanceof EzuiPropertyGrid) {
-//				propertyGrid = new PropertyGrid((EzuiPropertyGrid) clazzAnns[i]);
-//			}
+			// if (clazzAnns[i] instanceof EzuiPropertyGrid) {
+			// propertyGrid = new PropertyGrid((EzuiPropertyGrid) clazzAnns[i]);
+			// }
 			if (clazzAnns[i] instanceof EzuiTreeGrid) {
 				treeGrid = new TreeGrid((EzuiTreeGrid) clazzAnns[i]);
 			}
@@ -89,13 +93,13 @@ public class Pages {
 		this.dataGrid = dataGrid;
 	}
 
-//	public PropertyGrid getPropertyGrid() {
-//		return propertyGrid;
-//	}
-//
-//	public void setPropertyGrid(PropertyGrid propertyGrid) {
-//		this.propertyGrid = propertyGrid;
-//	}
+	// public PropertyGrid getPropertyGrid() {
+	// return propertyGrid;
+	// }
+	//
+	// public void setPropertyGrid(PropertyGrid propertyGrid) {
+	// this.propertyGrid = propertyGrid;
+	// }
 
 	public TreeGrid getTreeGrid() {
 		return treeGrid;

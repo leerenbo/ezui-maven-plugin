@@ -25,10 +25,13 @@ public class DataGrid {
 	public boolean getByIdable;
 	public boolean updateable;
 	public boolean deleteable;
+	public boolean downloadExcelable;
 	public String deleteMethod = "deletePhysical";
 
 	public String sqlId;
-
+	public boolean uploadExcelable;
+	public String uploadExcelURL;
+	public File uploadExcelFile;
 	public void init(Class clazz) {
 		if (deleteable) {
 			try {
@@ -51,7 +54,7 @@ public class DataGrid {
 				conditionElements.add(eConditon);
 
 			Element show = ElementFactory.instance(field, ElementFactory.SHOW);
-			if (show != null){
+			if (show != null) {
 				showElements.add(show);
 			}
 		}
@@ -63,6 +66,8 @@ public class DataGrid {
 		getByIdable = ezuiDataGrid.getByIdable();
 		updateable = ezuiDataGrid.updateable();
 		deleteable = ezuiDataGrid.deleteable();
+		downloadExcelable = ezuiDataGrid.downloadExcelable();
+		uploadExcelable = ezuiDataGrid.uploadExcelable();
 	}
 
 	public File getFile() {
@@ -136,4 +141,29 @@ public class DataGrid {
 	public void setDeleteMethod(String deleteMethod) {
 		this.deleteMethod = deleteMethod;
 	}
+
+	public boolean isDownloadExcelable() {
+		return downloadExcelable;
+	}
+
+	public void setDownloadExcelable(boolean downloadExcelable) {
+		this.downloadExcelable = downloadExcelable;
+	}
+
+	public boolean isUploadExcelable() {
+		return uploadExcelable;
+	}
+
+	public void setUploadExcelable(boolean uploadExcelable) {
+		this.uploadExcelable = uploadExcelable;
+	}
+
+	public String getUploadExcelURL() {
+		return uploadExcelURL;
+	}
+
+	public void setUploadExcelURL(String uploadExcelURL) {
+		this.uploadExcelURL = uploadExcelURL;
+	}
+
 }
